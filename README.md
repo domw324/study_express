@@ -21,3 +21,13 @@ $ pm2 start main.js --watch # main.js를 process manager로 실행, 파일의 �
 ```bash
 $ npm install express --save # express 설치
 ```
+---
+
+# javascript 
+
+## sanitize-html
+sanitize : 소독하다
+html의 input 또는 textarea 또는 기타등등의 사용자 입력정보에 &lt;script&gt;CODE&lt;/script&gt; 이란 정보를 적으면 웹브라우저에서는 텍스트가 아닌 script 기술로 받아들여서 사용자가 이를 악용하여 악성스크립트를 집어넣을 수 있다.
+이로인해 서버의 정보를 빼낼 수 있게 될수도 있다.
+이것을 방어하기 위한 node의 패키지모듈로 &lt;script&gt;,&lt;a&gt; 등등 기타 태그들
+변환시켜주어 **악성스크립트로 변질되는 것을 막아주는 보안 라이브러리**.
