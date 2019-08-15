@@ -67,7 +67,7 @@ type : 형식
 name : input의 이름. 전송 받은 데이터를 이 name 속성을 이용해 찾을 수 있다. 보낼 데이터가 있다면 꼭 써줘야 한다.
 placeholder : 기본으로 표시할 가이드 텍스트
 
----
+===
 
 
 # study_express
@@ -115,9 +115,9 @@ app.use(helmet()); // use the helmet module
 
 ---
 
-# javascript 
+## javascript 
 
-## sanitize-html
+### sanitize-html
 sanitize : 소독하다
 html의 input 또는 textarea 또는 기타등등의 사용자 입력정보에 &lt;script&gt;CODE&lt;/script&gt; 이란 정보를 적으면 웹브라우저에서는 텍스트가 아닌 script 기술로 받아들여서 사용자가 이를 악용하여 악성스크립트를 집어넣을 수 있다.
 이로인해 서버의 정보를 빼낼 수 있게 될수도 있다.
@@ -126,10 +126,10 @@ html의 input 또는 textarea 또는 기타등등의 사용자 입력정보에 &
 
 ---
 
-# express-generator
+## express-generator
 node.js의 express에서 제공하는 모범적인 framework이다. 기본적으로 필요한 초기 작업을 "알아서"해준다.
 
-## 설치
+### 설치
 ```bash
 $ npm install express-generator -g
 ```
@@ -139,14 +139,14 @@ $ npm install express-generator -g
 $ express -h
 ```
 
-## 구조
+### 구조
 - bin (dir)
 - public (dir) : store for save Static File
 - routes (dir) : router (javascript file)
 - views (dir) : code (pug:html)
 - app.js : executing main file
 
-## 실행
+### 실행
 ```bash
 $ DEBUG=[Project.name]:& npm start # Mac
 $ set DEBUG=[Project.name]:* & npm start # windows
@@ -154,25 +154,55 @@ $ set DEBUG=[Project.name]:* & npm start # windows
 
 ---
 
-# 앞으로 공부할만 한 것
+## 앞으로 공부할만 한 것
 
-## pug
+### pug
 : html을 더 짧게 작성할 수 있는 코드. (반복문 및 조건문 등 확장 된 기능 제공)
-### 설치
+#### 설치
 ```bash
 $ npm stall pug --save
 ```
 
-## Database
+### Database
 : 현대 웹에서는 필수 요소.
-### MySQL
+#### MySQL
 ```bash
 $ npm install mysql
 ```
-### MongoDB
+#### MongoDB
 ```bash
 $ npm install monodb
 ```
 
-## Middleware
+### Middleware
 : express의 기능을 더욱 확장시킬 수 있는 좋은 방법. middleware를 잘 쓰면 그만큼 express를 잘 쓸 수 있다!
+
+---
+
+# cookie와 인증
+쿠키를 이용하면 각 사용자를 식별/인증 할 수 있고, 사용자별로 다른 서비스를 제공 할 수 있다.
+
+## cookie parser
+```bash
+npm install -s cookie # 미들웨어 설치
+```
+```javascript
+var cookie = require('cookie'); // 미들웨어
+```
+
+## 쿠키 생성
+```javascript
+// 쿠키 생성
+'Set-Cookie':'yummy_cookie=choco' // 쿠키 값이 하나일 경우
+'Set-Cookie':['yummy_cookie=choco', 'tasty_cookie=strawberry'] // 복수일 때는 항상 배열의 형태
+
+// 쿠키 분석
+request.headers.cookie // 쿠키를 받는 경우. headers.cookie로 찾을 수 있다.
+
+var cookies = {};
+if(request.headers.cookie != undefined) {
+    cookies = cookie.parse(request.headers.cookie);
+}
+console.log(cookies.yummy_cookie); // choco
+console.log(cookies.tasty_cookie); // strawberry
+```
