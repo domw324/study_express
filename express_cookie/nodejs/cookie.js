@@ -10,7 +10,15 @@ http.createServer(function(request, response){
     // console.log(cookies.yummy_cookie); // yummy_cookie
     // console.log(cookies.tasty_cookie); // tasty_cookie
     response.writeHead(200, {
-        'Set-Cookie':['yummy_cookie=choco', 'tasty_cookie=strawberry']
+        'Set-Cookie':[
+          'yummy_cookie=choco',
+          'tasty_cookie=strawberry',
+          `Permanent=cookies; Max-Age=${60*60*24*30}`,
+          'Secure=Secure; Secure;',
+          'HttpOnly=httpOnly; HttpOnly',
+          'Path=Path; Path=/cookie',
+          'Domain=Domain; Domain=o2.org'
+        ]
     })
     response.end('Cookie!!');
 }).listen(3000);
