@@ -206,3 +206,20 @@ if(request.headers.cookie != undefined) {
 console.log(cookies.yummy_cookie); // choco
 console.log(cookies.tasty_cookie); // strawberry
 ```
+## 더 공부할 만한 것
+
+### Session
+javascript를 활용해 얼마든지 쿠키를 가로챌 수 있다.
+그래서 쿠키 내부에 중요한 정보(id, password, etc)를 보내는 것은 매우 위험하다.
+따라서 session을 활용하여 (식별이 어려운, 암호화 된)값을 보내고 실제 데이터는 따로 인증하는 방법을 적용 할 수 있다.
+
+### Local Database
+
+### 웹 개인화
+- 사용자 별 언어 설정
+- 사용자 개인 설정 유지
+- etc
+
+===
+
+# Express-Session
