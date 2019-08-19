@@ -6,14 +6,25 @@ var fs = require('fs'); // controling the file system
 var bodyParser = require('body-parser'); // middleware : 
 var compression = require('compression'); // middleware : 전송 데이터 압축
 var helmet = require('helmet'); // security module
+var session = require('express-session'); // session middleware
+var FileStore = require('session-file-store') (session); // session-file-store middleware
 
 var template = require('./lib/template.js');
+var auth = require('./lib/auth.js')
 var topicRouter = require('./routes/topic');
+var authRouter = require('./routes/auth');
 
 app.use(express.static('public')); // public directory에서 static file 검색 & 사용
 app.use(bodyParser.urlencoded({ extended: false})); // body-parser 사용
 app.use(compression()); // compression 사용
 app.use(helmet());
+app.use(session({ // app 접속 할 때마다 session 생성
+  secret: 'justexample',
+  resave: false,
+  saveUninitialized: true,
+  store:new FileStore()
+}));
+
 // custom middleware : directory filelist 반환. get 방식 요청의 모든 경로에서 실행
 app.get('*', function(request, response, next){
   fs.readdir('./data', function(error, filelist){
@@ -37,6 +48,7 @@ app.get('/', function(request, response) {
     response.send(html);
   });
   */
+
   var title = 'Welcome';
   var description = 'Hello, Node.js';
   var list = template.list(request.list);
@@ -46,13 +58,15 @@ app.get('/', function(request, response) {
     <img src="/images/hello.jpg" style="width:300px; display:block; margin-top:10px;">
     `
     ,
-    `<a href="/topic/create">create</a>`
+    `<a href="/topic/create">create</a>`,
+    auth.statusUI(request, response)
   );
   response.send(html);
 });
 
 // router : /topic 경로로 들어오는 모든 요청 topicRouter가 처리 (router code 내부에서 /topic 경로 써줄 필요 없음)
 app.use('/topic', topicRouter);
+app.use('/auth', authRouter);
 
 // 404 : Not Founded Error
 app.use(function(req, res, next) {

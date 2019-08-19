@@ -5,6 +5,7 @@ var router = express.Router();
 var path = require('path'); // parsing the paths
 var sanitizeHtml = require('sanitize-html'); // 사용자 input에서 악성 스크립트 필터링
 var template = require('../lib/template.js');
+var auth = require('../lib/auth.js')
 
 router.get('/create', function(request, response) {
   var title = 'WEB - create';
@@ -19,7 +20,7 @@ router.get('/create', function(request, response) {
         <input type="submit">
       </p>
     </form>
-  `, '');
+  `, '', auth.statusUI(request, response));
   response.send(html);
 });
 router.post('/create_process', function(request, response) {
@@ -64,7 +65,8 @@ router.get('/update/:pageId', function(request, response) {
         </p>
       </form>
       `,
-      `<a href="/topic/create">create</a> <a href="/topic/update/${title}">update</a>`
+      `<a href="/topic/create">create</a> <a href="/topic/update/${title}">update</a>`,
+      auth.statusUI(request, response)
     );
     response.send(html);
   });
@@ -110,7 +112,8 @@ router.get('/:pageId', function(request, response, next) {
           <form action="/topic/delete_process" method="post">
             <input type="hidden" name="id" value="${sanitizedTitle}">
             <input type="submit" value="delete">
-          </form>`
+          </form>`,
+          auth.statusUI(request, response)
       );
       response.send(html);
     }

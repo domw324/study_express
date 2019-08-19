@@ -237,3 +237,70 @@ console.log(cookies.tasty_cookie); // strawberry
 'Set-Cookie': 'CookieName=Value; Path=/cookie;' // /cookie이하 경로에만 쿠키 존재
 'Set-Cookie': 'CookieName=Value; Domain=o2.org;' // o2.org 도메인에서만 쿠키 존재
 ```
+
+## 더 공부할 만한 것
+
+### Session
+javascript를 활용해 얼마든지 쿠키를 가로챌 수 있다.
+그래서 쿠키 내부에 중요한 정보(id, password, etc)를 보내는 것은 매우 위험하다.
+따라서 session을 활용하여 (식별이 어려운, 암호화 된)값을 보내고 실제 데이터는 따로 인증하는 방법을 적용 할 수 있다.
+
+### Local Database
+
+### 웹 개인화
+- 사용자 별 언어 설정
+- 사용자 개인 설정 유지
+- etc
+
+===
+
+# Express-Session
+
+## Session 설치
+```bash
+$ npm install [-s] express-session # express-session을 현재 프로젝트에 설치
+```
+
+### 사용
+```javascript
+var express = require('express')
+var session = require('express-session')
+
+var app = express()
+
+// session 정보 기록
+app.use(session({ // 사용자 요청이 있을 때마다 session을 시작
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
+}))
+
+// session 정보 삭제 (logout)
+request.session.destroy(function(err){ // session 정보 모두 삭제
+  response.redirect('/'); 
+})
+```
+### 속성
+- secret : 버전 관리가 필요할 때는 꼭 별도의 파일에 값을 빼놔야 한다.
+- reasave : (default=false)
+- saveUninitialized : (default=true)
+
+## session-file-store
+세션 데이터 저장소를 만들 때 활용할 수 있는 미들웨어
+
+### 설치
+```bash
+$ npm install -s session-file-store
+```
+
+## 사용
+```javascript
+var FileStore = require('session-file-store')(session) // 미들웨어 선언
+
+// session file 저장
+app.use(session({
+  // 아래 값 추가
+  store:new FileStore() // 사용자가 접근하면 적절한 session으로 변환하여 sessions folder에 값을 저장
+}))
+```
+사용자가
