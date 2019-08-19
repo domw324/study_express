@@ -130,12 +130,45 @@ node.js의 express에서 제공하는 모범적인 framework이다. 기본적으
 
 ### 설치
 ```bash
-$ npm install express-generator [-g] # [-g] : 컴퓨터 사용자 모두 사용 옵션
+$ npm in
+
+express-generator [-g] # [-g] : 컴퓨터 사용자 모두 사용 옵션
 ```
 
 설치 이후 명령어가 궁금하다면
 ```bash
 $ express -h
+
+# 결과
+Usage: express [options] [dir]
+
+  Options:
+
+        --version        output the version number
+    -e, --ejs            add ejs engine support
+        --pug            add pug engine support
+        --hbs            add handlebars engine support
+    -H, --hogan          add hogan.js engine support
+    -v, --view <engine>  add view <engine> support (dust|ejs|hbs|hjs|jade|pug|twig|vash) (defaults to jade)
+        --no-view        use static html instead of view engine
+    -c, --css <engine>   add stylesheet <engine> support (less|stylus|compass|sass) (defaults to plain css)
+        --git            add .gitignore
+    -f, --force          force on non-empty directory
+    -h, --help           output usage information
+```
+
+본격적으로 express-generator의 구조를 갖춰보자.
+```bash
+$ express --view=<engine> [directory]
+
+# 예
+$ express --view=pug # view engine으로 pug를 사용하고, 현재 디렉토리에 설치
+```
+bin, public, routes, views 등의 구조가 생성 될 것이다!
+
+다음으로 package.json에 적힌 모듈들을 설치해야 한다.
+```bash
+$ npm install # package.json 파일 설치
 ```
 
 ### 구조
@@ -176,7 +209,7 @@ html
 
 #### 설치
 ```bash
-$ npm stall pug [--save] # [--save] : 현재 프로젝트에 적용
+$ npm install pug [--save] # [--save] : 현재 프로젝트에 적용
 ```
 
 ### Database
