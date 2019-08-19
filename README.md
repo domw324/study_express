@@ -182,6 +182,10 @@ $ npm install monodb
 # cookie와 인증
 쿠키를 이용하면 각 사용자를 식별/인증 할 수 있고, 사용자별로 다른 서비스를 제공 할 수 있다.
 
+## session cookies / permanent cookies
+session cookie : 휘발성. 웹브라우저를 끄면 사라짐.
+permanent cookie : 비휘발성. 웹브라우저를 꺼도 사라지지 않음.
+
 ## cookie parser
 ```bash
 npm install -s cookie # 미들웨어 설치
@@ -190,11 +194,14 @@ npm install -s cookie # 미들웨어 설치
 var cookie = require('cookie'); // 미들웨어
 ```
 
-## 쿠키 생성
+## 쿠키 생성 및 읽기
 ```javascript
-// 쿠키 생성
-'Set-Cookie':'yummy_cookie=choco' // 쿠키 값이 하나일 경우
-'Set-Cookie':['yummy_cookie=choco', 'tasty_cookie=strawberry'] // 복수일 때는 항상 배열의 형태
+// session cookie
+'Set-Cookie':'yummy_cookie=choco'; // 쿠키 값이 하나일 경우
+'Set-Cookie':['yummy_cookie=choco', 'tasty_cookie=strawberry']; // 복수일 때는 항상 배열의 형태
+
+// permanent cookie : MAx-Age 옵션 추가. (단위 : 초)
+'Set-Cookie': `CookieName=Value; Max-Age=${60*60*24*30}`;
 
 // 쿠키 분석
 request.headers.cookie // 쿠키를 받는 경우. headers.cookie로 찾을 수 있다.
@@ -205,4 +212,28 @@ if(request.headers.cookie != undefined) {
 }
 console.log(cookies.yummy_cookie); // choco
 console.log(cookies.tasty_cookie); // strawberry
+```
+
+### 쿠키 삭제
+값은 공백, 옵션은 **Max-Age=0**으로 설정하면 된다!
+```javascript
+'Set-Cookie':[
+  `email=; Max-Age=0`,
+  `password=; Max-Age=0`,
+  'nickname=; Max-Age=0'
+        ],
+```
+
+## 쿠키 Secure & https only
+쿠키 생성 시 **Secure/HttpOnly** 옵션을 넣어주면 된다
+```javascript
+'Set-Cookie': 'CookieName=Value; Secure;' // Secure : https로 접속할 때만 표시. http에 비해 https는 통신 내용이 암호화 되기 때문에 보안성이 더 높다.
+'Set-Cookie': 'CookieName=Value; HttpOnly;' // HttpOnly : 웹 통신을 할 때만 표시. javascript를 이용해 접근 못하게 함
+```
+
+## 쿠키 Path, Domain 제한
+쿠키 생성 시 **Path/Domain** 옵션을 넣어주면 된다
+```javascript
+'Set-Cookie': 'CookieName=Value; Path=/cookie;' // /cookie이하 경로에만 쿠키 존재
+'Set-Cookie': 'CookieName=Value; Domain=o2.org;' // o2.org 도메인에서만 쿠키 존재
 ```
